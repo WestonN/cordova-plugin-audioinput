@@ -120,7 +120,7 @@ public class AudioInputReceiver extends Thread {
 
 				try
 				{
-					while (!isInterrupted()) {
+					while (!isInterrupted() && !shouldInterrupt) {
 						numReadBytes = recorder.read(audioBuffer, 0, readBufferSize);
 
 						if (numReadBytes > 0) {
