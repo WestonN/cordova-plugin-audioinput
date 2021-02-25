@@ -113,6 +113,8 @@ public class AudioInputReceiver extends Thread {
 
 			int numReadBytes = 0;
 			short audioBuffer[] = new short[readBufferSize];
+			
+			boolean shouldInterrupt = false;
 			synchronized(this) {
 			    recorder.startRecording();
 
@@ -138,6 +140,14 @@ public class AudioInputReceiver extends Thread {
 								message.setData(messageBundle);
 								handler.sendMessage(message);
 							}
+						} else {
+							message = handler.obtainMessage();
+							messageBundle = new Bundle();
+							messageBundle.putString("error", "numReadBytes is less than 0");
+							message.setData(messageBundle);
+							handler.sendMessage(message);
+
+							shouldInterrupt = true;
 						}
 					}
 
